@@ -334,7 +334,7 @@ abstract class NexysVideoShellBasicOverlays()(implicit p: Parameters) extends Se
   val led       = Seq.tabulate(8)(i => Overlay(LEDOverlayKey, new LEDNexysVideoShellPlacer(this, LEDMetas(i))(valName = ValName(s"led_$i"))))
   val switch    = Seq.tabulate(8)(i => Overlay(SwitchOverlayKey, new SwitchNexysVideoShellPlacer(this, SwitchShellInput(number = i))(valName = ValName(s"switch_$i"))))
   val button    = Seq.tabulate(5)(i => Overlay(ButtonOverlayKey, new ButtonNexysVideoShellPlacer(this, ButtonShellInput(number = i))(valName = ValName(s"button_$i"))))
-  val ddr       = Overlay(DDROverlayKey, new DDRNexysVideoShellPlacer(this, DDRShellInput()))
+  val ddr       = if (DDRKey != None) Some(Overlay(DDROverlayKey, new DDRNexysVideoShellPlacer(this, DDRShellInput()))) else None
   val uart      = Overlay(UARTOverlayKey, new UARTNexysVideoShellPlacer(this, UARTShellInput()))
   val sdio      = Overlay(SPIOverlayKey, new SDIONexysVideoShellPlacer(this, SPIShellInput()))
   val jtag      = Overlay(JTAGDebugOverlayKey, new JTAGDebugNexysVideoShellPlacer(this, JTAGDebugShellInput()))

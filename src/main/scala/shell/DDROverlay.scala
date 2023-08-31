@@ -19,12 +19,16 @@ trait DDRShellPlacer[Shell] extends ShellPlacer[DDRDesignInput, DDRShellInput, D
 
 case object DDROverlayKey extends Field[Seq[DesignPlacer[DDRDesignInput, DDRShellInput, DDROverlayOutput]]](Nil)
 
+case object DDRKey extends Field[Option[Seq[DesignPlacer[DDRDesignInput, DDRShellInput, DDROverlayOutput]]]](None)
+
 abstract class DDRPlacedOverlay[IO <: Data](val name: String, val di: DDRDesignInput, val si: DDRShellInput)
   extends IOPlacedOverlay[IO, DDRDesignInput, DDRShellInput, DDROverlayOutput]
 {
   implicit val p = di.p
 }
 
+  /* Mixin to add AXI4SDFFFT to rocket config */
+class WithDDR extends Config((site, here, up) => {case DDRKey => Some(DDROverlayKey)})
 /*
    Copyright 2016 SiFive, Inc.
 
