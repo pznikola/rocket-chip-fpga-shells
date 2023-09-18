@@ -26,7 +26,7 @@ class SysClockNexysVideoShellPlacer(val shell: NexysVideoShellBasicOverlays, val
   def place(designInput: ClockInputDesignInput) = new SysClockNexysVideoPlacedOverlay(shell, valName.name, designInput, shellInput)
 }
 
-// FIXME: PMOD JA also used for SDIO
+// CONFLICT: PMOD JA also used for SDIO
 // PMOD JA used for JTAG
 class JTAGDebugNexysVideoPlacedOverlay(val shell: NexysVideoShellBasicOverlays, name: String, val designInput: JTAGDebugDesignInput, val shellInput: JTAGDebugShellInput)
   extends JTAGDebugXilinxPlacedOverlay(name, designInput, shellInput)
@@ -54,7 +54,7 @@ class JTAGDebugNexysVideoShellPlacer(val shell: NexysVideoShellBasicOverlays, va
   def place(designInput: JTAGDebugDesignInput) = new JTAGDebugNexysVideoPlacedOverlay(shell, valName.name, designInput, shellInput)
 }
 
-// FIXME: PMOD JA also used for SDIO
+// CONFLICT: PMOD JA also used for SDIO
 // PMOD JA used for cJTAG
 class cJTAGDebugNexysVideoPlacedOverlay(val shell: NexysVideoShellBasicOverlays, name: String, val designInput: cJTAGDebugDesignInput, val shellInput: cJTAGDebugShellInput)
   extends cJTAGDebugXilinxPlacedOverlay(name, designInput, shellInput)
@@ -81,7 +81,7 @@ class cJTAGDebugNexysVideoShellPlacer(val shell: NexysVideoShellBasicOverlays, v
   def place(designInput: cJTAGDebugDesignInput) = new cJTAGDebugNexysVideoPlacedOverlay(shell, valName.name, designInput, shellInput)
 }
 
-// FIXME: PMOD JA also used for JTAG/cJTAG
+// CONFLICT: PMOD JA also used for JTAG/cJTAG
 // PMOD JA used for SDIO
 class SDIONexysVideoPlacedOverlay(val shell: NexysVideoShellBasicOverlays, name: String, val designInput: SPIDesignInput, val shellInput: SPIShellInput)
   extends SDIOXilinxPlacedOverlay(name, designInput, shellInput)
@@ -334,7 +334,7 @@ abstract class NexysVideoShellBasicOverlays()(implicit p: Parameters) extends Se
   val led       = Seq.tabulate(8)(i => Overlay(LEDOverlayKey, new LEDNexysVideoShellPlacer(this, LEDMetas(i))(valName = ValName(s"led_$i"))))
   val switch    = Seq.tabulate(8)(i => Overlay(SwitchOverlayKey, new SwitchNexysVideoShellPlacer(this, SwitchShellInput(number = i))(valName = ValName(s"switch_$i"))))
   val button    = Seq.tabulate(5)(i => Overlay(ButtonOverlayKey, new ButtonNexysVideoShellPlacer(this, ButtonShellInput(number = i))(valName = ValName(s"button_$i"))))
-  val ddr       = if (DDRKey != None) Some(Overlay(DDROverlayKey, new DDRNexysVideoShellPlacer(this, DDRShellInput()))) else None
+  val ddr       = Some(Overlay(DDROverlayKey, new DDRNexysVideoShellPlacer(this, DDRShellInput())))
   val uart      = Overlay(UARTOverlayKey, new UARTNexysVideoShellPlacer(this, UARTShellInput()))
   val sdio      = Overlay(SPIOverlayKey, new SDIONexysVideoShellPlacer(this, SPIShellInput()))
   val jtag      = Overlay(JTAGDebugOverlayKey, new JTAGDebugNexysVideoShellPlacer(this, JTAGDebugShellInput()))
@@ -413,7 +413,6 @@ class NexysVideoShellGPIOPMOD()(implicit p: Parameters) extends NexysVideoShellB
       case None => false.B
     }
 
-    pllReset :=
-      (!reset_ibuf.io.O) || powerOnReset || ctsReset // NexysVideo is active low reset
+    pllReset := (!reset_ibuf.io.O) || powerOnReset || ctsReset // NexysVideo is active low reset
   }
 }

@@ -7,7 +7,6 @@ import freechips.rocketchip.util.GenericParameterizedBundle
 import org.chipsalliance.cde.config._
 
 // Black Box
-
 class NexysVideoMIGIODDR(depth : BigInt) extends GenericParameterizedBundle(depth) {
   require((depth<=0x20000000L),"NexysVideoMIGIODDR supports upto 512 MB depth configuraton")
   val ddr3_addr             = Bits(OUTPUT,15)
@@ -19,7 +18,6 @@ class NexysVideoMIGIODDR(depth : BigInt) extends GenericParameterizedBundle(dept
   val ddr3_ck_p             = Bits(OUTPUT,1)
   val ddr3_ck_n             = Bits(OUTPUT,1)
   val ddr3_cke              = Bits(OUTPUT,1)
-  // val ddr3_cs_n             = Bits(OUTPUT,1)
   val ddr3_dm               = Bits(OUTPUT,2)
   val ddr3_odt              = Bits(OUTPUT,1)
 

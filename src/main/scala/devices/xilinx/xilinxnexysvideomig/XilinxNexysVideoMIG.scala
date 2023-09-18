@@ -70,7 +70,6 @@ class XilinxNexysVideoMIGIsland(c : XilinxNexysVideoMIGParams, val crossing: Clo
     io.port.ddr3_ck_p         := blackbox.io.ddr3_ck_p
     io.port.ddr3_ck_n         := blackbox.io.ddr3_ck_n
     io.port.ddr3_cke          := blackbox.io.ddr3_cke
-    // io.port.ddr3_cs_n         := blackbox.io.ddr3_cs_n
     io.port.ddr3_dm           := blackbox.io.ddr3_dm
     io.port.ddr3_odt          := blackbox.io.ddr3_odt
 

@@ -367,29 +367,6 @@ class sdio_spi_bridge() extends BlackBox
   }
 }
 
-class ILA_LEDS() extends BlackBox
-{
-  val io = new Bundle{
-    val clk = Clock(INPUT)
-    val probe0 = Bool(INPUT) // reset
-    val probe1 = Bool(INPUT) // reset
-    val probe2 = Bool(INPUT) // uart txd
-    val probe3 = Bool(INPUT) // uart rxd
-  }
-
-  ElaborationArtefacts.add(
-    "ILA_LEDS.vivado.tcl",
-    """create_ip -name ila -vendor xilinx.com -library ip -version 6.2 -module_name ILA_LEDS
-        set_property -dict [list \
-        CONFIG.C_PROBE3_WIDTH {1} \
-        CONFIG.C_PROBE2_WIDTH {1} \
-        CONFIG.C_PROBE1_WIDTH {1} \
-        CONFIG.C_PROBE0_WIDTH {1} \
-        CONFIG.C_DATA_DEPTH {16384} \
-        CONFIG.C_NUM_OF_PROBES {4}] [get_ips ILA_LEDS] """
-  )
-}
-
 /*
    Copyright 2016 SiFive, Inc.
 
